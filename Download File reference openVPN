@@ -1,0 +1,27 @@
+    # Setting strings
+    strFileURL = "http://http://swupdate.openvpn.org/community/releases/openvpn-install-2.3.11-I001-x86_64.exe"
+    strHDLocation = "c:\Users\%username%\Downloads\openvpn.exe
+    # Fetching file
+      Set objXMLHTTP = CreateObject("MSXML2.XMLHTTP")
+    
+      objXMLHTTP.open "GET", strFileURL, false
+      objSMLHTTP.send()
+      
+      If objXMLHTTP.Status = 200 Then
+      Set objADOStream = CreateObject("ADODB.Stream")
+      objADOStream.Open
+      objADOStream.Type = 1 'adTypeBinary
+      
+      objADOStream.Write objXMLHTTP.ResponseBody
+      objADOStream.position = 0 
+      
+      Set objFS0 = Createobject("scripting.FileSystemObject")
+      If objFS0.Fileexists(strHDLocation) Then objFS0.DeleteFile strHDLocation
+      Set objFS0 = Nothing
+      
+      objADOStream.SaveToFile strHDLocation
+      objADOStream.Close
+      Set objADOStream = Nothing
+      End if
+      
+      Set objXMLHTTP = Nothing
